@@ -1,0 +1,174 @@
+openapi: "3.0.0"
+info:
+  title: Openapi Generator Example
+  version: 0.0.1-SNAPSHOT
+
+tags:
+  - Simple
+
+paths:
+  /v1/public/simple-list:
+    get:
+      tags:
+        - Simple
+      operationId: listSimple
+      summary: List API of SimpleModel
+      parameters: []
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SimpleModel'
+  /v1/public/simple-page:
+    get:
+      tags:
+        - Simple
+      operationId: paginateSimple
+      summary: Pagination API of SimpleModel
+      # Reference:
+      # https://swagger.io/docs/specification/describing-parameters
+      parameters:
+#        - $ref: '#/components/parameters/pageParam'
+#        - $ref: '#/components/parameters/sizeParam'
+#        - $ref: '#/components/parameters/sortParam'
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              schema:
+#                type: object
+#                allOf:
+#                  - $ref: '#/components/schemas/PageResult'
+#                  - type: object
+#                    properties:
+#                      content:
+#                        type: array
+#                        items:
+#                          $ref: '#/components/schemas/SimpleModel'
+                $ref: '#/components/schemas/SimplePage'
+
+components:
+  # Reference:
+  # https://swagger.io/docs/specification/data-models/inheritance-and-polymorphism/
+  schemas:
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        sort:
+          type: array
+          items:
+            type: string
+            default: field1,asc
+    PageResult:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+    BaseModel:
+      type: object
+      required:
+        - id
+        - versionNo
+      properties:
+        id:
+          type: integer
+          format: int32
+        versionNo:
+          type: integer
+          format: int32
+        createdBy:
+          type: string
+#        createdDatetime:
+#          type: date-time
+        lastModifiedBy:
+          type: string
+#        lastModifiedDatetime:
+#          type: date-time
+    SimpleModel:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          required:
+            - type
+            - title
+          properties:
+            type:
+              type: string
+            title:
+              type: string
+    SimplePage:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PageResult'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/SimpleModel'
+
+  # Reference:
+  # https://medium.com/learning-from-jhipster/21-controller-service-repository%E7%9A%84%E5%BB%BA%E7%AB%8B-2-pageable-sort-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%88%87-swagger-%E7%9A%84%E8%A8%AD%E5%AE%9A-f3dc2a1b772d
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      description: Results page you want to retrieve (0..N)
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 0
+    sizeParam:
+      name: size
+      in: query
+      description: Number of records per page
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 20
+    sortParam:
+      name: sort
+      in: query
+      description: |
+        Sorting criteria in the format: property(,asc|desc).
+        Default sort order is ascending.
+        Multiple sort criteria are supported.
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          default: field1,asc
+
+
+

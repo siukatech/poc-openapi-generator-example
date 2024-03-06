@@ -1,0 +1,101 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'maven-publish'
+    id 'org.openapi.generator' version '7.2.0'
+}
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.siukatech.poc'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    if (project.hasProperty("platformSnapshotUri")) {
+        maven {
+            name = 'platformSnapshot'
+            allowInsecureProtocol = true
+            credentials(PasswordCredentials)
+            url = uri("$platformSnapshotUri")
+        }
+    }
+}
+
+bootJar {
+    exclude('application*.properties', 'application*.yml')
+}
+
+dependencies {
+    implementation 'com.siukatech.poc:react-backend-parent:0.0.1-SNAPSHOT'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    runtimeOnly 'org.postgresql:postgresql:42.6.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.h2database:h2:2.1.214'
+}
+
+// after upgrade to springboot >= 3.2.1
+// this can be fixed by update build.gradle or adding maven plugin
+// https://stackoverflow.com/a/77691302
+// https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-6.x#parameter-name-retention
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add("-parameters")
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+// pagination configuration
+// https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/spring.md
+// https://medium.com/learning-from-jhipster/21-contoller-service-repository的建立-2-pageable-sort-的使用與-swagger-的設定-f3dc2a1b772d
+// https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc
+// https://github.com/OAI/OpenAPI-Specification/blob/main/examples/v3.0/api-with-examples.yaml
+def openapiPackageRoot = "com.siukatech.poc.openapi.generator.example.web"
+openApiGenerate {
+//tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+//    generatorName.set("kotlin")
+//    generatorName.set("java")
+    generatorName.set("spring")
+//    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
+    inputSpec.set("$rootDir/specs/pocreact-v0.0.1.yaml")
+    outputDir.set("$buildDir/generated")
+//    apiPackage.set("org.openapi.example.api")
+//    invokerPackage.set("org.openapi.example.invoker")
+//    modelPackage.set("org.openapi.example.model")
+    apiPackage.set("$openapiPackageRoot" + ".api")
+    invokerPackage.set("$openapiPackageRoot" + ".invoker")
+    modelPackage.set("$openapiPackageRoot" + ".model")
+    // Reference:
+    // https://stackoverflow.com/q/73384038
+    configOptions.set([
+            dateLibrary: "java8"
+            , interfaceOnly: "true"
+            , useTags: "true"
+//            , delegatePattern: "true"
+    ])
+    typeMappings.set([
+            // Reference:
+            // https://stackoverflow.com/a/77016049
+            'string+date-time':'LocalDatTime'
+    ])
+    importMappings.set([
+            LocalDateTime: "java.time.LocalDateTime"
+            , Pageable: 'org.springframework.data.domain.Pageable'
+    ])
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("$buildDir/generated/src/main/java")
+        }
+    }
+}
+
