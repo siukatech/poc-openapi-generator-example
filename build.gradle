@@ -76,18 +76,23 @@ openApiGenerate {
     // https://stackoverflow.com/q/73384038
     configOptions.set([
             dateLibrary: "java8"
+
+            // interfaceOnly=true will generate the interface class only, no implementation
             , interfaceOnly: "true"
+
+            // useTags=true will generate the method operationId to specified tag(s), not by uri
             , useTags: "true"
+
 //            , delegatePattern: "true"
     ])
     typeMappings.set([
             // Reference:
             // https://stackoverflow.com/a/77016049
-            'string+date-time':'LocalDatTime'
+            "string+date-time": "LocalDateTime"
     ])
     importMappings.set([
             LocalDateTime: "java.time.LocalDateTime"
-            , Pageable: 'org.springframework.data.domain.Pageable'
+            , Pageable: "org.springframework.data.domain.Pageable"
     ])
 }
 
@@ -98,4 +103,60 @@ sourceSets {
         }
     }
 }
+
+task generateSpringClient(
+        type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+        , dependsOn: clean
+) {
+//    generatorName.set("kotlin")
+//    generatorName.set("java")
+    // Reference:
+    // https://openapi-generator.tech/docs/generators/spring/#metadata
+    generatorName.set("spring")
+    library.set("spring-boot")
+//    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
+    inputSpec.set("$rootDir/specs/pocreact-v0.0.1.yaml")
+    outputDir.set("$buildDir/generated")
+//    apiPackage.set("org.openapi.example.api")
+//    invokerPackage.set("org.openapi.example.invoker")
+//    modelPackage.set("org.openapi.example.model")
+    apiPackage.set("$openapiPackageRoot" + ".api")
+    invokerPackage.set("$openapiPackageRoot" + ".invoker")
+    modelPackage.set("$openapiPackageRoot" + ".model")
+    // Reference:
+    // https://stackoverflow.com/q/73384038
+    configOptions.set([
+            dateLibrary: "java8"
+
+            // interfaceOnly=true will generate the interface class only, no implementation
+            , interfaceOnly: "true"
+
+            // useTags=true will generate the method operationId to specified tag(s), not by uri
+            , useTags: "true"
+
+//            , delegatePattern: "true"
+            // Reference:
+            // https://openapi-generator.tech/docs/generators/spring/#metadata
+            , serializableModel: "true"
+            , useBeanValidation: "true"
+            , useResponseEntity: "true"
+            , useSpringBoot3: "true"
+            , useSpringController: "true"
+            , useSwaggerUI: "true"
+    ])
+    typeMappings.set([
+            // Reference:
+            // https://stackoverflow.com/a/77016049
+//            'string+date-time': 'LocalDateTime'
+            "string+date-time": "LocalDateTime"
+    ])
+    importMappings.set([
+            LocalDateTime: "java.time.LocalDateTime"
+            , Pageable: "org.springframework.data.domain.Pageable"
+    ])
+}
+
+//build.dependOns tasks.generateSpringClient
+//task build(type: build, dependsOn: generateSpringClient)
+
 
