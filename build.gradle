@@ -6,9 +6,11 @@ plugins {
 }
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.siukatech.poc'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+java {
+    group = 'com.siukatech.poc'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
     mavenLocal()
@@ -62,54 +64,6 @@ openApiGenerate {
 //tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
 //    generatorName.set("kotlin")
 //    generatorName.set("java")
-    generatorName.set("spring")
-//    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
-    inputSpec.set("$rootDir/specs/pocreact-v0.0.1.yaml")
-    outputDir.set("$buildDir/generated")
-//    apiPackage.set("org.openapi.example.api")
-//    invokerPackage.set("org.openapi.example.invoker")
-//    modelPackage.set("org.openapi.example.model")
-    apiPackage.set("$openapiPackageRoot" + ".api")
-    invokerPackage.set("$openapiPackageRoot" + ".invoker")
-    modelPackage.set("$openapiPackageRoot" + ".model")
-    // Reference:
-    // https://stackoverflow.com/q/73384038
-    configOptions.set([
-            dateLibrary: "java8"
-
-            // interfaceOnly=true will generate the interface class only, no implementation
-            , interfaceOnly: "true"
-
-            // useTags=true will generate the method operationId to specified tag(s), not by uri
-            , useTags: "true"
-
-//            , delegatePattern: "true"
-    ])
-    typeMappings.set([
-            // Reference:
-            // https://stackoverflow.com/a/77016049
-            "string+date-time": "LocalDateTime"
-    ])
-    importMappings.set([
-            LocalDateTime: "java.time.LocalDateTime"
-            , Pageable: "org.springframework.data.domain.Pageable"
-    ])
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir("$buildDir/generated/src/main/java")
-        }
-    }
-}
-
-task generateSpringClient(
-        type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask
-        , dependsOn: clean
-) {
-//    generatorName.set("kotlin")
-//    generatorName.set("java")
     // Reference:
     // https://openapi-generator.tech/docs/generators/spring/#metadata
     generatorName.set("spring")
@@ -149,9 +103,18 @@ task generateSpringClient(
             // https://stackoverflow.com/a/77016049
 //            'string+date-time': 'LocalDateTime'
             "string+date-time": "LocalDateTime"
+//            , "string+date": "LocalDate"
+            //
+            // Reference:
+            // https://stackoverflow.com/a/69464205
+            // https://stackoverflow.com/a/76366031
+//            , "string+time": "LocalTime"
+            , "time": "LocalTime"
     ])
     importMappings.set([
             LocalDateTime: "java.time.LocalDateTime"
+//            , LocalDate: "java.time.LocalDate"
+            , LocalTime: "java.time.LocalTime"
             , Pageable: "org.springframework.data.domain.Pageable"
     ])
 }

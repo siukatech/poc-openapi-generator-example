@@ -3,7 +3,7 @@ package com.siukatech.poc.openapi.generator.example.web.controller;
 import com.siukatech.poc.openapi.generator.example.web.api.SimpleApi;
 import com.siukatech.poc.openapi.generator.example.web.model.SimpleModel;
 import com.siukatech.poc.openapi.generator.example.web.model.SimplePage;
-import com.siukatech.poc.react.backend.parent.web.annotation.v1.PublicNoPrefixApiV1Controller;
+import com.siukatech.poc.react.backend.parent.web.annotation.base.RestApiController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @Slf4j
-@PublicNoPrefixApiV1Controller
+@RestApiController
 //@PublicApiV1Controller
 public class SimpleController implements SimpleApi {
 
