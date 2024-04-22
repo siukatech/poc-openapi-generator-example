@@ -1,8 +1,9 @@
 package com.siukatech.poc.openapi.generator.example.web.controller;
 
 import com.siukatech.poc.openapi.generator.example.web.api.SimpleApi;
+import com.siukatech.poc.openapi.generator.example.web.model.PageModel;
+import com.siukatech.poc.openapi.generator.example.web.model.PageResult;
 import com.siukatech.poc.openapi.generator.example.web.model.SimpleModel;
-import com.siukatech.poc.openapi.generator.example.web.model.SimplePage;
 import com.siukatech.poc.react.backend.parent.web.annotation.base.RestApiController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +16,8 @@ import java.util.List;
 //@PublicApiV1Controller
 public class SimpleController implements SimpleApi {
 
-    private List<SimpleModel> simpleModelList = List.of(new SimpleModel(1, 1, "type", "title")
+    private List<SimpleModel> simpleModelList = List.of(
+            new SimpleModel(1, 1, "type", "title")
             , new SimpleModel(2, 1, "type", "title")
             , new SimpleModel(3, 1, "type", "title")
     );
@@ -34,12 +36,21 @@ public class SimpleController implements SimpleApi {
 //                .content(simpleModelList).totalElements(simpleModelList.size()));
 //    }
 
+//    @Override
+//    public ResponseEntity<SimplePage> paginateSimple(Pageable pageable) {
+//        log.debug("paginateSimple - pageable: [{}]", pageable);
+////        return SimpleApi.super.paginateSimple(pageable);
+//        return ResponseEntity.ok(new SimplePage()
+//                .content(simpleModelList).totalElements(simpleModelList.size()));
+//    }
+
     @Override
-    public ResponseEntity<SimplePage> paginateSimple(Pageable pageable) {
+    public ResponseEntity<PageResult> paginateSimple(Pageable pageable) {
         log.debug("paginateSimple - pageable: [{}]", pageable);
 //        return SimpleApi.super.paginateSimple(pageable);
-        return ResponseEntity.ok(new SimplePage()
-                .content(simpleModelList).totalElements(simpleModelList.size()));
+        List<PageModel> pageModels = simpleModelList.stream().map(s -> (PageModel) s).toList();
+        return ResponseEntity.ok(new PageResult()
+                .content(pageModels).totalElements(simpleModelList.size()));
     }
 
 }
