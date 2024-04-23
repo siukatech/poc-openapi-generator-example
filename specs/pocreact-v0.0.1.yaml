@@ -197,11 +197,11 @@ components:
     DiscPageModel:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageModel'
-        - discriminator:
-            propertyName: pageModelType
-            mapping:
-              simpleModel: '#/components/schemas/SimpleModel'
-              complexModel: '#/components/schemas/ComplexModel'
+#        - discriminator:
+#            propertyName: pageModelType
+#            mapping:
+#              simpleModel: '#/components/schemas/SimpleModel'
+#              complexModel: '#/components/schemas/ComplexModel'
 #    discriminator:
 #      propertyName: pageContentType
 #      mapping:
@@ -212,10 +212,12 @@ components:
 #          type: string
     SimpleModel:
 #      type: object
+      # The first $ref object will be used super class
+      # when openapiNormalizer.set(["REF_AS_PARENT_IN_ALLOF": "true"]) is enabled in build.gradle
       allOf:
 #        - $ref: '#/components/schemas/BaseModel'
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
         - $ref: '#/components/schemas/DiscPageModel'
+        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
         - type: object
           required:
             - type
@@ -244,8 +246,8 @@ components:
 #                $ref: '#/components/schemas/SimpleModel'
     ComplexModel:
       allOf:
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
         - $ref: '#/components/schemas/DiscPageModel'
+        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
         - type: object
           required:
             - type
@@ -262,11 +264,11 @@ components:
     DiscPageResult:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageResult'
-        - discriminator:
-            propertyName: pageModelType
-            mapping:
-              simpleModel: '#/components/schemas/SimpleDiscPageResult'
-              complexModel: '#/components/schemas/ComplexDiscPageResult'
+#        - discriminator:
+#            propertyName: pageModelType
+#            mapping:
+#              simpleModel: '#/components/schemas/SimpleDiscPageResult'
+#              complexModel: '#/components/schemas/ComplexDiscPageResult'
     SimpleDiscPageResult:
       allOf:
         - $ref: '#/components/schemas/DiscPageResult'

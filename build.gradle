@@ -80,6 +80,9 @@ tasks.openApiGenerate {
     invokerPackage.set("$openapiPackageRoot" + ".invoker")
     modelPackage.set("$openapiPackageRoot" + ".model")
     // Reference:
+    // https://github.com/gradle/develocity-api-samples/blob/main/build.gradle.kts
+    openapiNormalizer.set(["REF_AS_PARENT_IN_ALLOF": "true"])
+    // Reference:
     // https://stackoverflow.com/q/73384038
     configOptions.set([
             dateLibrary: "java8"
