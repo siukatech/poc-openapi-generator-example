@@ -1,10 +1,7 @@
 package com.siukatech.poc.openapi.generator.example.web.controller;
 
 import com.siukatech.poc.openapi.generator.example.web.api.ComplexApi;
-import com.siukatech.poc.openapi.generator.example.web.model.ComplexModel;
-import com.siukatech.poc.openapi.generator.example.web.model.PageModel;
-import com.siukatech.poc.openapi.generator.example.web.model.PageResult;
-import com.siukatech.poc.openapi.generator.example.web.model.SimpleModel;
+import com.siukatech.poc.openapi.generator.example.web.model.*;
 import com.siukatech.poc.react.backend.parent.web.annotation.base.RestApiController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -28,8 +25,17 @@ public class ComplexController implements ComplexApi {
     public ResponseEntity<PageResult> paginateComplex(Pageable pageable) {
         log.debug("paginateComplex - pageable: [{}]", pageable);
 //        return ComplexApi.super.paginateComplex(pageable);
-        List<PageModel> pageModels = complexModelList.stream().map(s -> (PageModel) s).toList();
+        List<DisPageModel> pageModels = complexModelList.stream().map(s -> (DisPageModel) s).toList();
         return ResponseEntity.ok(new PageResult()
                 .content(pageModels).totalElements(complexModelList.size()));
     }
+
+    @Override
+    public ResponseEntity<DisPageResult> paginateComplexDis(Pageable pageable) {
+        log.debug("paginateComplexDis - pageable: [{}]", pageable);
+//        return ComplexApi.super.paginateComplexDis(pageable);
+        return ResponseEntity.ok(new ComplexDisPageResult()
+                .content(complexModelList).totalElements(complexModelList.size()));
+    }
+
 }

@@ -1,9 +1,7 @@
 package com.siukatech.poc.openapi.generator.example.web.controller;
 
 import com.siukatech.poc.openapi.generator.example.web.api.SimpleApi;
-import com.siukatech.poc.openapi.generator.example.web.model.PageModel;
-import com.siukatech.poc.openapi.generator.example.web.model.PageResult;
-import com.siukatech.poc.openapi.generator.example.web.model.SimpleModel;
+import com.siukatech.poc.openapi.generator.example.web.model.*;
 import com.siukatech.poc.react.backend.parent.web.annotation.base.RestApiController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -48,9 +46,17 @@ public class SimpleController implements SimpleApi {
     public ResponseEntity<PageResult> paginateSimple(Pageable pageable) {
         log.debug("paginateSimple - pageable: [{}]", pageable);
 //        return SimpleApi.super.paginateSimple(pageable);
-        List<PageModel> pageModels = simpleModelList.stream().map(s -> (PageModel) s).toList();
+        List<DisPageModel> pageModels = simpleModelList.stream().map(s -> (DisPageModel) s).toList();
         return ResponseEntity.ok(new PageResult()
                 .content(pageModels).totalElements(simpleModelList.size()));
+    }
+
+    @Override
+    public ResponseEntity<DisPageResult> paginateSimpleDis(Pageable pageable) {
+        log.debug("paginateSimpleDis - pageable: [{}]", pageable);
+//        return SimpleApi.super.paginateSimpleDis(pageable);
+        return ResponseEntity.ok(new SimpleDisPageResult()
+                .content(simpleModelList).totalElements(simpleModelList.size()));
     }
 
 }

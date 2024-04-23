@@ -36,10 +36,11 @@ components:
         totalPages:
           type: integer
           format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/BasePageModel'
+        # This is required to comment out to prevent class mismatching with the subclasses.
+#        content:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/BasePageModel'
     BasePageModel:
       discriminator:
         propertyName: pageModelType

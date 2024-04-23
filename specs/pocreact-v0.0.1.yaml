@@ -67,6 +67,26 @@ paths:
 ##                          $ref: '#/components/schemas/SimpleModel'
 #                $ref: '#/components/schemas/SimplePage'
                 $ref: '#/components/schemas/PageResult'
+  /v1/public/simple-page-dis:
+    get:
+      tags:
+        - Simple
+      operationId: paginateSimpleDis
+      summary: Pagination API of SimpleModel
+      parameters:
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisPageResult'
   /v1/public/complex-page:
     get:
       tags:
@@ -87,6 +107,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageResult'
+  /v1/public/complex-page-dis:
+    get:
+      tags:
+        - Complex
+      operationId: paginateComplexDis
+      summary: Pagination API of ComplexModel
+      parameters:
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisPageResult'
 
 components:
   # Reference:
@@ -150,8 +190,11 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/PageModel'
-    PageModel:
+                $ref: '#/components/schemas/DisPageModel'
+    #
+    # Set up the discriminator in PageMode to make the returned content list specific, failed.
+    # Returned content list is required to re-cast before return.
+    DisPageModel:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageModel'
         - discriminator:
@@ -172,7 +215,7 @@ components:
       allOf:
 #        - $ref: '#/components/schemas/BaseModel'
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
-        - $ref: '#/components/schemas/PageModel'
+        - $ref: '#/components/schemas/DisPageModel'
         - type: object
           required:
             - type
@@ -202,7 +245,7 @@ components:
     ComplexModel:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
-        - $ref: '#/components/schemas/PageModel'
+        - $ref: '#/components/schemas/DisPageModel'
         - type: object
           required:
             - type
@@ -214,6 +257,35 @@ components:
               $ref: '#/components/schemas/SimpleModel'
             simpleB:
               $ref: '#/components/schemas/SimpleModel'
+    #
+    # Set up the discriminator in PageResult to make the returned content list specific.
+    DisPageResult:
+      allOf:
+        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageResult'
+        - discriminator:
+            propertyName: pageModelType
+            mapping:
+              simpleModel: '#/components/schemas/SimpleDisPageResult'
+              complexModel: '#/components/schemas/ComplexDisPageResult'
+    SimpleDisPageResult:
+      allOf:
+        - $ref: '#/components/schemas/DisPageResult'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/SimpleModel'
+    ComplexDisPageResult:
+      allOf:
+        - $ref: '#/components/schemas/DisPageResult'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/ComplexModel'
+
 
 #  # Reference:
 #  # https://medium.com/learning-from-jhipster/21-controller-service-repository%E7%9A%84%E5%BB%BA%E7%AB%8B-2-pageable-sort-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%88%87-swagger-%E7%9A%84%E8%A8%AD%E5%AE%9A-f3dc2a1b772d
