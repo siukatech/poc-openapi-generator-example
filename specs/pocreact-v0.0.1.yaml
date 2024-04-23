@@ -25,11 +25,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SimpleModel'
-  /v1/public/simple-page:
+  /v1/public/simple-page-base:
     get:
       tags:
         - Simple
-      operationId: paginateSimple
+      operationId: paginateSimpleBase
       summary: Pagination API of SimpleModel
       # Reference:
       # https://swagger.io/docs/specification/describing-parameters
@@ -67,11 +67,11 @@ paths:
 ##                          $ref: '#/components/schemas/SimpleModel'
 #                $ref: '#/components/schemas/SimplePage'
                 $ref: '#/components/schemas/PageResult'
-  /v1/public/simple-page-dis:
+  /v1/public/simple-page-disc:
     get:
       tags:
         - Simple
-      operationId: paginateSimpleDis
+      operationId: paginateSimpleDisc
       summary: Pagination API of SimpleModel
       parameters:
         - in: query
@@ -86,12 +86,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DisPageResult'
-  /v1/public/complex-page:
+                $ref: '#/components/schemas/DiscPageResult'
+  /v1/public/complex-page-base:
     get:
       tags:
         - Complex
-      operationId: paginateComplex
+      operationId: paginateComplexBase
       summary: Pagination API of ComplexModel
       parameters:
         - in: query
@@ -107,11 +107,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageResult'
-  /v1/public/complex-page-dis:
+  /v1/public/complex-page-disc:
     get:
       tags:
         - Complex
-      operationId: paginateComplexDis
+      operationId: paginateComplexDisc
       summary: Pagination API of ComplexModel
       parameters:
         - in: query
@@ -126,7 +126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DisPageResult'
+                $ref: '#/components/schemas/DiscPageResult'
 
 components:
   # Reference:
@@ -190,11 +190,11 @@ components:
             content:
               type: array
               items:
-                $ref: '#/components/schemas/DisPageModel'
+                $ref: '#/components/schemas/DiscPageModel'
     #
     # Set up the discriminator in PageMode to make the returned content list specific, failed.
     # Returned content list is required to re-cast before return.
-    DisPageModel:
+    DiscPageModel:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageModel'
         - discriminator:
@@ -215,7 +215,7 @@ components:
       allOf:
 #        - $ref: '#/components/schemas/BaseModel'
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
-        - $ref: '#/components/schemas/DisPageModel'
+        - $ref: '#/components/schemas/DiscPageModel'
         - type: object
           required:
             - type
@@ -245,7 +245,7 @@ components:
     ComplexModel:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
-        - $ref: '#/components/schemas/DisPageModel'
+        - $ref: '#/components/schemas/DiscPageModel'
         - type: object
           required:
             - type
@@ -259,26 +259,26 @@ components:
               $ref: '#/components/schemas/SimpleModel'
     #
     # Set up the discriminator in PageResult to make the returned content list specific.
-    DisPageResult:
+    DiscPageResult:
       allOf:
         - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageResult'
         - discriminator:
             propertyName: pageModelType
             mapping:
-              simpleModel: '#/components/schemas/SimpleDisPageResult'
-              complexModel: '#/components/schemas/ComplexDisPageResult'
-    SimpleDisPageResult:
+              simpleModel: '#/components/schemas/SimpleDiscPageResult'
+              complexModel: '#/components/schemas/ComplexDiscPageResult'
+    SimpleDiscPageResult:
       allOf:
-        - $ref: '#/components/schemas/DisPageResult'
+        - $ref: '#/components/schemas/DiscPageResult'
         - type: object
           properties:
             content:
               type: array
               items:
                 $ref: '#/components/schemas/SimpleModel'
-    ComplexDisPageResult:
+    ComplexDiscPageResult:
       allOf:
-        - $ref: '#/components/schemas/DisPageResult'
+        - $ref: '#/components/schemas/DiscPageResult'
         - type: object
           properties:
             content:

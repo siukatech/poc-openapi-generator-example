@@ -43,19 +43,19 @@ public class SimpleController implements SimpleApi {
 //    }
 
     @Override
-    public ResponseEntity<PageResult> paginateSimple(Pageable pageable) {
-        log.debug("paginateSimple - pageable: [{}]", pageable);
+    public ResponseEntity<PageResult> paginateSimpleBase(Pageable pageable) {
+        log.debug("paginateSimpleBase - pageable: [{}]", pageable);
 //        return SimpleApi.super.paginateSimple(pageable);
-        List<DisPageModel> pageModels = simpleModelList.stream().map(s -> (DisPageModel) s).toList();
+        List<DiscPageModel> pageModels = simpleModelList.stream().map(s -> (DiscPageModel) s).toList();
         return ResponseEntity.ok(new PageResult()
                 .content(pageModels).totalElements(simpleModelList.size()));
     }
 
     @Override
-    public ResponseEntity<DisPageResult> paginateSimpleDis(Pageable pageable) {
-        log.debug("paginateSimpleDis - pageable: [{}]", pageable);
-//        return SimpleApi.super.paginateSimpleDis(pageable);
-        return ResponseEntity.ok(new SimpleDisPageResult()
+    public ResponseEntity<DiscPageResult> paginateSimpleDisc(Pageable pageable) {
+        log.debug("paginateSimpleDisc - pageable: [{}]", pageable);
+//        return SimpleApi.super.paginateSimpleDisc(pageable);
+        return ResponseEntity.ok(new SimpleDiscPageResult()
                 .content(simpleModelList).totalElements(simpleModelList.size()));
     }
 

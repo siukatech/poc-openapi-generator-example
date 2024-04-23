@@ -22,19 +22,19 @@ public class ComplexController implements ComplexApi {
     );
 
     @Override
-    public ResponseEntity<PageResult> paginateComplex(Pageable pageable) {
-        log.debug("paginateComplex - pageable: [{}]", pageable);
+    public ResponseEntity<PageResult> paginateComplexBase(Pageable pageable) {
+        log.debug("paginateComplexBase - pageable: [{}]", pageable);
 //        return ComplexApi.super.paginateComplex(pageable);
-        List<DisPageModel> pageModels = complexModelList.stream().map(s -> (DisPageModel) s).toList();
+        List<DiscPageModel> pageModels = complexModelList.stream().map(s -> (DiscPageModel) s).toList();
         return ResponseEntity.ok(new PageResult()
                 .content(pageModels).totalElements(complexModelList.size()));
     }
 
     @Override
-    public ResponseEntity<DisPageResult> paginateComplexDis(Pageable pageable) {
-        log.debug("paginateComplexDis - pageable: [{}]", pageable);
-//        return ComplexApi.super.paginateComplexDis(pageable);
-        return ResponseEntity.ok(new ComplexDisPageResult()
+    public ResponseEntity<DiscPageResult> paginateComplexDisc(Pageable pageable) {
+        log.debug("paginateComplexDisc - pageable: [{}]", pageable);
+//        return ComplexApi.super.paginateComplexDisc(pageable);
+        return ResponseEntity.ok(new ComplexDiscPageResult()
                 .content(complexModelList).totalElements(complexModelList.size()));
     }
 
