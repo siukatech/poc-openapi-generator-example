@@ -15,11 +15,13 @@ components:
   schemas:
     # Reference:
     # https://medium.com/learning-from-jhipster/21-controller-service-repository的建立-2-pageable-sort-的使用與-swagger-的設定-f3dc2a1b772d
+    # Custom Pageable is required to construct PageRequest object in spring, weird
     Pageable:
       type: object
       properties:
         page:
           type: integer
+          description: pageNumber/page - zero-based page number, must not be negative.
         size:
           type: integer
         sort:
@@ -74,38 +76,38 @@ components:
   # Reference:
   # https://medium.com/learning-from-jhipster/21-controller-service-repository%E7%9A%84%E5%BB%BA%E7%AB%8B-2-pageable-sort-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%88%87-swagger-%E7%9A%84%E8%A8%AD%E5%AE%9A-f3dc2a1b772d
   # https://medium.com/learning-from-jhipster/21-controller-service-repository的建立-2-pageable-sort-的使用與-swagger-的設定-f3dc2a1b772d
-  parameters:
-    pageParam:
-      name: page
-      in: query
-      description: Results page you want to retrieve (0..N)
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 0
-        default: 0
-    sizeParam:
-      name: size
-      in: query
-      description: Number of records per page
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 100
-        default: 20
-    sortParam:
-      name: sort
-      in: query
-      description: |
-        Sorting criteria in the format: property(,asc|desc).
-        Default sort order is ascending.
-        Multiple sort criteria are supported.
-      required: false
-      schema:
-        type: array
-        items:
-          type: string
-          default: field1,asc
+#  parameters:
+#    pageParam:
+#      name: page
+#      in: query
+#      description: Results page you want to retrieve (0..N)
+#      required: false
+#      schema:
+#        type: integer
+#        format: int32
+#        minimum: 0
+#        default: 0
+#    sizeParam:
+#      name: size
+#      in: query
+#      description: Number of records per page
+#      required: false
+#      schema:
+#        type: integer
+#        format: int32
+#        minimum: 1
+#        maximum: 100
+#        default: 20
+#    sortParam:
+#      name: sort
+#      in: query
+#      description: |
+#        Sorting criteria in the format: property(,asc|desc).
+#        Default sort order is ascending.
+#        Multiple sort criteria are supported.
+#      required: false
+#      schema:
+#        type: array
+#        items:
+#          type: string
+#          default: field1,asc

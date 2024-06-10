@@ -103,6 +103,11 @@ tasks.openApiGenerate {
             , useSpringController: "true"
             , useSwaggerUI: "true"
     ])
+//    schemaMappings.set([
+//            Pageable: "org.springframework.data.domain.Pageable"
+//            ,
+//            Page: "org.springframework.data.domain.Page"
+//    ])
     typeMappings.set([
             // Reference:
             // https://stackoverflow.com/a/77016049
@@ -115,12 +120,15 @@ tasks.openApiGenerate {
             // https://stackoverflow.com/a/76366031
 //            , "string+time": "LocalTime"
             , "time": "LocalTime"
+            , "pageable": "Pageable"
+            , "page": "Page"
     ])
     importMappings.set([
             LocalDateTime: "java.time.LocalDateTime"
 //            , LocalDate: "java.time.LocalDate"
             , LocalTime: "java.time.LocalTime"
             , Pageable: "org.springframework.data.domain.Pageable"
+            , Page: "org.springframework.data.domain.Page"
     ])
 }
 
