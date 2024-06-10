@@ -37,9 +37,9 @@ paths:
 ##        - $ref: '#/components/parameters/pageParam'
 ##        - $ref: '#/components/parameters/sizeParam'
 ##        - $ref: '#/components/parameters/sortParam'
-#        - $ref: './base-model-v0.0.1.yaml#/components/parameters/pageParam'
-#        - $ref: './base-model-v0.0.1.yaml#/components/parameters/sizeParam'
-#        - $ref: './base-model-v0.0.1.yaml#/components/parameters/sortParam'
+#        - $ref: './common-model-v0.0.1.yaml#/components/parameters/pageParam'
+#        - $ref: './common-model-v0.0.1.yaml#/components/parameters/sizeParam'
+#        - $ref: './common-model-v0.0.1.yaml#/components/parameters/sortParam'
         - in: query
           name: pageable
           required: false
@@ -47,7 +47,7 @@ paths:
 #            $ref: '#/components/schemas/Pageable'
             # Reference:
             # https://stackoverflow.com/a/58933221
-            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+            $ref: './common-model-v0.0.1.yaml#/components/schemas/Pageable'
 ##            type: Pageable
 #            type: pageable
       responses:
@@ -60,7 +60,7 @@ paths:
 ##                type: object
 ##                allOf:
 ###                  - $ref: '#/components/schemas/PageResult'
-##                  - $ref: './base-model-v0.0.1.yaml#/components/schemas/PageResult'
+##                  - $ref: './common-model-v0.0.1.yaml#/components/schemas/PageResult'
 ##                  - type: object
 ##                    properties:
 ##                      content:
@@ -80,7 +80,7 @@ paths:
           name: pageable
           required: false
           schema:
-            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+            $ref: './common-model-v0.0.1.yaml#/components/schemas/Pageable'
 #            type: Pageable
       responses:
         '200':
@@ -101,7 +101,7 @@ paths:
           name: pageable
           required: false
           schema:
-            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+            $ref: './common-model-v0.0.1.yaml#/components/schemas/Pageable'
 #            type: Pageable
       responses:
         '200':
@@ -122,7 +122,7 @@ paths:
           name: pageable
           required: false
           schema:
-#            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+#            $ref: './common-model-v0.0.1.yaml#/components/schemas/Pageable'
             type: Pageable
       responses:
         '200':
@@ -143,7 +143,7 @@ paths:
           name: pageable
           required: false
           schema:
-#            $ref: './base-model-v0.0.1.yaml#/components/schemas/Pageable'
+#            $ref: './common-model-v0.0.1.yaml#/components/schemas/Pageable'
             type: Pageable
       responses:
         '200':
@@ -210,7 +210,7 @@ components:
 #          format: date-time
     PageResult:
       allOf:
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageResult'
+        - $ref: './common-model-v0.0.1.yaml#/components/schemas/BasePageResult'
         - type: object
           properties:
             content:
@@ -222,7 +222,7 @@ components:
     # Returned content list is required to re-cast before return.
     DiscPageModel:
       allOf:
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageModel'
+        - $ref: './common-model-v0.0.1.yaml#/components/schemas/BasePageModel'
 #        - discriminator:
 #            propertyName: pageModelType
 #            mapping:
@@ -243,7 +243,7 @@ components:
       allOf:
 #        - $ref: '#/components/schemas/BaseIntModel'
         - $ref: '#/components/schemas/DiscPageModel'
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseIntModel'
+        - $ref: './common-model-v0.0.1.yaml#/components/schemas/BaseIntModel'
         - type: object
           required:
             - type
@@ -263,7 +263,7 @@ components:
 #      type: object
 #      allOf:
 ##        - $ref: '#/components/schemas/PageResult'
-#        - $ref: './base-model-v0.0.1.yaml#/components/schemas/PageResult'
+#        - $ref: './common-model-v0.0.1.yaml#/components/schemas/PageResult'
 #        - type: object
 #          properties:
 #            content:
@@ -273,7 +273,7 @@ components:
     ComplexModel:
       allOf:
         - $ref: '#/components/schemas/DiscPageModel'
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseIntModel'
+        - $ref: './common-model-v0.0.1.yaml#/components/schemas/BaseIntModel'
         - type: object
           required:
             - type
@@ -289,7 +289,7 @@ components:
     # Set up the discriminator in PageResult to make the returned content list specific.
     DiscPageResult:
       allOf:
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BasePageResult'
+        - $ref: './common-model-v0.0.1.yaml#/components/schemas/BasePageResult'
 #        - discriminator:
 #            propertyName: pageModelType
 #            mapping:
