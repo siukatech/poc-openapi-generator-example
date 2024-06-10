@@ -50,15 +50,11 @@ components:
       properties:
         pageModelType:
           type: string
-    BaseModel:
+    BaseAbstractModel:
       type: object
       required:
-        - id
         - versionNo
       properties:
-        id:
-          type: integer
-          format: int32
         versionNo:
           type: integer
           format: int32
@@ -72,6 +68,25 @@ components:
         lastModifiedDatetime:
           type: string
           format: date-time
+    BaseIntModel:
+      required:
+        - id
+      allOf:
+        - $ref: '#/components/schemas/BaseAbstractModel'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int32
+    BaseStrModel:
+      required:
+        - id
+      allOf:
+        - $ref: '#/components/schemas/BaseAbstractModel'
+        - type: object
+          properties:
+            id:
+              type: string
 
   # Reference:
   # https://medium.com/learning-from-jhipster/21-controller-service-repository%E7%9A%84%E5%BB%BA%E7%AB%8B-2-pageable-sort-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%88%87-swagger-%E7%9A%84%E8%A8%AD%E5%AE%9A-f3dc2a1b772d

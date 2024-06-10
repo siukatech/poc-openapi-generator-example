@@ -186,7 +186,7 @@ components:
 #          type: array
 #          items:
 #            type: object
-#    BaseModel:
+#    BaseIntModel:
 #      type: object
 #      required:
 #        - id
@@ -241,9 +241,9 @@ components:
       # The first $ref object will be used super class
       # when openapiNormalizer.set(["REF_AS_PARENT_IN_ALLOF": "true"]) is enabled in build.gradle
       allOf:
-#        - $ref: '#/components/schemas/BaseModel'
+#        - $ref: '#/components/schemas/BaseIntModel'
         - $ref: '#/components/schemas/DiscPageModel'
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
+        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseIntModel'
         - type: object
           required:
             - type
@@ -273,7 +273,7 @@ components:
     ComplexModel:
       allOf:
         - $ref: '#/components/schemas/DiscPageModel'
-        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseModel'
+        - $ref: './base-model-v0.0.1.yaml#/components/schemas/BaseIntModel'
         - type: object
           required:
             - type
