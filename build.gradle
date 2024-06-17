@@ -70,8 +70,9 @@ tasks.openApiGenerate {
     // https://openapi-generator.tech/docs/generators/spring/#metadata
     generatorName.set("spring")
     library.set("spring-boot")
-//    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
-    inputSpec.set("$rootDir/specs/pocreact-v0.0.1.yaml")
+////    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
+//    inputSpec.set("$rootDir/specs/pocreact-v0.0.1.yaml")
+    remoteInputSpec.set("https://raw.githubusercontent.com/siukatech/openapi-spec/main/openapi-generator-example/pocreact-v0.0.1.yaml")
     outputDir.set("$buildDir/generated")
 //    apiPackage.set("org.openapi.example.api")
 //    invokerPackage.set("org.openapi.example.invoker")
